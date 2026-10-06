@@ -1,0 +1,107 @@
+{
+  "name": "ComBat Operator",
+  "description": "ComBat batch correction (L or L/S model), optionally with a reference batch or fitted on a fit condition only. Returns the corrected values (CmbCor) and a before/after PCA plot.",
+  "tags": ["batch correction", "normalization"],
+  "authors": ["PamGene"],
+  "urls": ["https://github.com/pamgene/combat_operator"],
+  "container": "ghcr.io/pamgene/combat_operator",
+  "operatorSpec": {
+    "kind": "OperatorSpec",
+    "ontologyUri": "https://tercen.com/_ontology/tercen",
+    "ontologyVersion": "0.0.1",
+    "inputSpecs": [
+      {
+        "kind": "CrosstabSpec",
+        "metaFactors": [
+          {
+            "kind": "MetaFactor",
+            "name": "Peptides",
+            "type": "",
+            "description": "Peptide IDs (one row per peptide).",
+            "ontologyMapping": "variable",
+            "crosstabMapping": "row",
+            "cardinality": "1..n",
+            "factors": []
+          },
+          {
+            "kind": "MetaFactor",
+            "name": "Samples",
+            "type": "",
+            "description": "Factors defining one sample per column (e.g. Barcode, Array/Row), plus the factors used by the fit condition (e.g. Grouping).",
+            "ontologyMapping": "sample",
+            "crosstabMapping": "column",
+            "cardinality": "1..n",
+            "factors": []
+          }
+        ],
+        "axis": [
+          {
+            "kind": "AxisSpec",
+            "metaFactors": [
+              {
+                "kind": "MetaFactor",
+                "name": "Values",
+                "type": "numeric",
+                "description": "Normalized values (log- or VSN-transformed, not S100).",
+                "ontologyMapping": "y-axis",
+                "crosstabMapping": "y",
+                "cardinality": "1",
+                "factors": []
+              },
+              {
+                "kind": "MetaFactor",
+                "name": "Batch",
+                "type": "",
+                "description": "Technical batch factor(s), e.g. Run or Barcode. Several factors are combined into one batch.",
+                "ontologyMapping": "variable",
+                "crosstabMapping": "color",
+                "cardinality": "1..n",
+                "factors": []
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "outputSpecs": []
+  },
+  "properties": [
+    {
+      "kind": "EnumeratedProperty",
+      "name": "ModelType",
+      "defaultValue": "L/S",
+      "description": "L/S corrects the level and the spread of each batch; L corrects only the level. See README.",
+      "values": ["L/S", "L"]
+    },
+    {
+      "kind": "BooleanProperty",
+      "name": "UseReferenceBatch",
+      "defaultValue": false,
+      "description": "Keep one batch unchanged and map all other batches onto it."
+    },
+    {
+      "kind": "StringProperty",
+      "name": "ReferenceBatch",
+      "defaultValue": "",
+      "description": "The reference batch: a value of the batch (colour) factor, e.g. 650097104. With several colour factors give one value per factor, in colour order, separated by ';' (e.g. run01;650097104)."
+    },
+    {
+      "kind": "BooleanProperty",
+      "name": "UseFitCondition",
+      "defaultValue": false,
+      "description": "Fit the correction only on the samples of the fit condition (e.g. reference/control samples) and apply it to all samples."
+    },
+    {
+      "kind": "StringProperty",
+      "name": "FitConditionFactors",
+      "defaultValue": "",
+      "description": "Column factor(s) defining the fit condition, separated by ';' (e.g. Grouping, or Supergroup;Test Condition). The factors must be on the crosstab columns."
+    },
+    {
+      "kind": "StringProperty",
+      "name": "FitConditionValues",
+      "defaultValue": "",
+      "description": "Value(s) of the fit-condition factors, one per factor separated by ';' (e.g. REF, or Control;DMSO). Several conditions are separated by '|' (e.g. Control;DMSO | Control;Vehicle)."
+    }
+  ]
+}

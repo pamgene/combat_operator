@@ -1,0 +1,13 @@
+.git
+.github
+.Rproj.user
+.Rhistory
+.RData
+renv/library
+renv/staging
+renv/local
+*.Rproj
+dev
+docs
+CLAUDE.md
+CONTEXT.md
