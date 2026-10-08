@@ -7,3 +7,4 @@ renv/staging
 renv/local
 dev/preview/
 dev/compare/
+dev/.rlib/

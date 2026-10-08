@@ -142,42 +142,31 @@ pgCombat = R6Class(
       
       gamma.star <-
         delta.star <- matrix(NA, nrow = n.batch, ncol = nrow(s.data))
-      if (par.prior) {
-        results <- lapply(1:n.batch, function(i) {
-          if (mean.only) {
-            gamma.star <- private$postmean(gamma.hat[i,], gamma.bar[i],
-                                           1, 1, t2[i])
-            delta.star <- rep(1, nrow(s.data))
-          }
-          else {
-            temp <- private$it.sol(s.data[, batches[[i]]],
-                                   gamma.hat[i,],
-                                   delta.hat[i,],
-                                   gamma.bar[i],
-                                   t2[i],
-                                   a.prior[i],
-                                   b.prior[i])
-            gamma.star <- temp[1,]
-            delta.star <- temp[2,]
-          }
-          list(gamma.star = gamma.star, delta.star = delta.star)
-        })
-        for (i in 1:n.batch) {
-          gamma.star[i,] <- results[[i]]$gamma.star
-          delta.star[i,] <- results[[i]]$delta.star
-        }
+      if (!par.prior) {
+        stop("Only the parametric empirical Bayes model (par.prior = TRUE) is implemented")
       }
-      else {
-        #message("Finding nonparametric adjustments")
-        results <- lapply(1:n.batch, function(i) {
-          temp <- int.eprior(as.matrix(s.data[, batches[[i]]]),
-                             gamma.hat[i,], delta.hat[i,])
-          list(gamma.star = temp[1,], delta.star = temp[2,])
-        })
-        for (i in 1:n.batch) {
-          gamma.star[i,] <- results[[i]]$gamma.star
-          delta.star[i,] <- results[[i]]$delta.star
+      results <- lapply(1:n.batch, function(i) {
+        if (mean.only) {
+          gamma.star <- private$postmean(gamma.hat[i,], gamma.bar[i],
+                                         1, 1, t2[i])
+          delta.star <- rep(1, nrow(s.data))
         }
+        else {
+          temp <- private$it.sol(s.data[, batches[[i]]],
+                                 gamma.hat[i,],
+                                 delta.hat[i,],
+                                 gamma.bar[i],
+                                 t2[i],
+                                 a.prior[i],
+                                 b.prior[i])
+          gamma.star <- temp[1,]
+          delta.star <- temp[2,]
+        }
+        list(gamma.star = gamma.star, delta.star = delta.star)
+      })
+      for (i in 1:n.batch) {
+        gamma.star[i,] <- results[[i]]$gamma.star
+        delta.star[i,] <- results[[i]]$delta.star
       }
       if (!is.null(ref.batch)) {
         gamma.star[ref,] <- 0
@@ -187,7 +176,7 @@ pgCombat = R6Class(
       bayesdata <- s.data
       j <- 1
       for (i in batches) {
-        bayesdata[, i] <- (bayesdata[, i] - t(batch.design[i,] %*% gamma.star)) 
+        bayesdata[, i] <- (bayesdata[, i] - t(batch.design[i,] %*% gamma.star)) /
           (sqrt(delta.star[j,]) %*% t(rep(1,
                                           n.batches[j])))
         j <- j + 1
@@ -215,6 +204,10 @@ pgCombat = R6Class(
       if (length(batch) != dim(dat)[2])
         stop("Data matrix and batch variable don't match.")
       lbx = levels(self$batches)
+      unknown = setdiff(levels(droplevels(batch)), lbx)
+      if (length(unknown) > 0)
+        stop("The data contain batches the model was not fitted on: ", paste(unknown, collapse = ", "),
+             ". Batches in the model: ", paste(lbx, collapse = ", "))
       Xc = matrix(nrow = dim(dat)[1], ncol = dim(dat)[2])
       for (i in 1:dim(dat)[2]) {
         Xc[, i] = (dat[, i] - self$L) / sqrt(self$S)

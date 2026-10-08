@@ -1,0 +1,17 @@
+"data","mode","model","reference","max_diff_vs_old","max_diff_vs_old_slash","old_error","equal_to_old"
+"qc","one-step","L/S","-",1.31377595998335,0,"",FALSE
+"qc","one-step","L/S","641031403",3.14052908061691,4.44089209850063e-16,"",FALSE
+"qc","one-step","L","-",0,0,"",TRUE
+"qc","one-step","L","641031403",4.44089209850063e-16,4.44089209850063e-16,"",TRUE
+"condfit","one-step","L/S","-",0.989113663819325,0,"",FALSE
+"condfit","one-step","L/S","run01",2.029359066552,0,"",FALSE
+"condfit","one-step","L","-",0,0,"",TRUE
+"condfit","one-step","L","run01",0,0,"",TRUE
+"sim","one-step","L/S","-",2.13474493722341,0,"",FALSE
+"sim","one-step","L/S","A",4.1192847857846,0,"",FALSE
+"sim","one-step","L","-",0,0,"",TRUE
+"sim","one-step","L","A",0,0,"",TRUE
+"condfit","two-step / fit condition","L/S","-",0,0,"",TRUE
+"condfit","two-step / fit condition","L/S","run01",0,0,"",TRUE
+"condfit","two-step / fit condition","L","-",0,0,"",TRUE
+"condfit","two-step / fit condition","L","run01",0,0,"",TRUE

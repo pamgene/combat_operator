@@ -37,14 +37,13 @@ ref = if (use_ref) resolve_reference(ref_string, batch, ctx$colors) else NULL
 
 model = pgCombat$new()$fit(X0[, fit_sample, drop = FALSE], factor(batch[fit_sample]),
                            ref.batch = ref, mean.only = mean_only)
-# Fitted on all samples: the correction computed inside fit(), as the Shiny operator
-# returned it; otherwise the fitted model is applied to all samples.
-Xc = if (all(fit_sample)) model$Xc else model$apply(X0, batch)
+Xc = model$apply(X0, batch)
 dimnames(Xc) = dimnames(X0)
 
 plot_file = tempfile(fileext = ".png")
-ggsave(plot_file, pca_plot(X0, Xc, batch, if (use_fit_condition) fit_sample),
-       width = 10, height = 5, dpi = 150, bg = "white")
+caption = parameter_text(mean_only, ref, if (use_fit_condition) fit_factors, fit_values)
+ggsave(plot_file, pca_plot(X0, Xc, batch, if (use_fit_condition) fit_sample, caption),
+       width = 10, height = 5.3, dpi = 150, bg = "white")
 
 result = data.frame(.rids = rep(0:(n_rows - 1), n_cols),
                     .cids = rep(0:(n_cols - 1), each = n_rows),

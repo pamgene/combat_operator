@@ -35,6 +35,7 @@ cases = list(
   list("sim_L", "sim", list(ModelType = "L")),
   list("sim_LS_ref", "sim", list(UseReferenceBatch = "true", ReferenceBatch = "A")),
   list("sim_LS_fitControl", "sim", sim_ctl),
+  list("sim_LS_fitControl_or_T2", "sim", list(UseFitCondition = "true", FitConditionFactors = "condition", FitConditionValues = "Control | T2")),
   list("sim_LS_fitControl_ref", "sim", c(sim_ctl, UseReferenceBatch = "true", ReferenceBatch = "A")),
   # error cases: the message is what the user sees
   list("ERR_qc_fitControl_LS", "qc", list(UseFitCondition = "true", FitConditionFactors = "Test Condition", FitConditionValues = "Control")),

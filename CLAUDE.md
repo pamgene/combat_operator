@@ -19,7 +19,11 @@ docker run --rm -v "$PWD:/src" --entrypoint Rscript combat_operator:dev /src/dev
 ```
 
 - `preview.R` runs the unmodified `main.R` on all data sets and settings (incl. error cases): look at `dev/preview/index.html` and `dev/preview/errors.txt` and show the PNGs to the user.
-- `compare_old_new.R` compares CmbCor with the old Shiny operator. L-model cases must stay equal (≤ 1e-10).
+- `compare_old_new.R` compares CmbCor with the old Shiny operator. L-model cases and the fit-condition (old two-step) cases must stay equal (≤ 1e-10); one-step L/S cases differ by design (bug D1 fixed) and must equal the old code with `/` restored.
+- `test_pgcombat.R` tests `R/pgcombat.R` (fit = apply, reference batch unchanged, no NaN, unknown batch rejected, equal to `sva::ComBat`). It exits 1 on failure. sva is a test-only dependency installed into the git-ignored `dev/.rlib` (one-off, ~20 min):
+  ```bash
+  docker run --rm -v "$PWD:/src" --entrypoint Rscript combat_operator:dev -e '.libPaths(c("/src/dev/.rlib", .libPaths())); install.packages("BiocManager", lib = "/src/dev/.rlib", repos = "https://cloud.r-project.org"); BiocManager::install("sva", lib = "/src/dev/.rlib", update = FALSE, ask = FALSE)'
+  ```
 - `dev/data/example_data_conditionfit_ref.csv`: `Sample.name` is recoded (2-letter codes). Never add files with real sample/patient names.
 
 ## The Tercen unit test (`tests/test.json`)

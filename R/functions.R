@@ -131,8 +131,20 @@ check_fit_counts = function(fit_batches, all_batches, mean_only, fit_condition) 
   invisible(counts)
 }
 
-# PC1 vs PC2 before and after correction, coloured by batch.
-pca_plot = function(X0, Xc, batches, fit_sample = NULL) {
+# One line with the settings, shown under the PCA plot. Several fit conditions
+# ("a | b") are written as "a or b", so "|" only separates the parameters.
+parameter_text = function(mean_only, ref, fit_factors, fit_values) {
+  fit = if (is.null(fit_factors)) "not used" else
+    paste(paste(split_values(fit_factors), collapse = ";"), "-",
+          paste(vapply(split_values(fit_values, "|"), function(v) paste(split_values(v), collapse = ";"), ""),
+                collapse = " or "))
+  sprintf("Parameters: Model type: %s | Reference batch: %s | Fit condition: %s",
+          if (mean_only) "L" else "L/S", if (is.null(ref)) "not used" else ref, fit)
+}
+
+# PC1 vs PC2 before and after correction, coloured by batch, with the settings
+# as caption under the figures.
+pca_plot = function(X0, Xc, batches, fit_sample = NULL, caption = NULL) {
   pcs = function(X, stage) {
     p = prcomp(t(X))
     data.frame(PC1 = p$x[, 1], PC2 = p$x[, 2], batch = batches, stage = stage)
@@ -146,5 +158,8 @@ pca_plot = function(X0, Xc, batches, fit_sample = NULL) {
     plt = ggplot(df, aes(PC1, PC2, colour = batch, shape = fit)) + geom_point(size = 2.5) +
       scale_shape_manual(values = c(`fit condition` = 17, other = 16), name = NULL)
   }
-  plt + facet_wrap(~stage, scales = "free") + theme_bw()
+  plt + facet_wrap(~stage, scales = "free") + theme_bw() +
+    labs(caption = caption) +
+    theme(plot.caption = element_text(hjust = 0, size = 10, margin = margin(t = 10)),
+          plot.caption.position = "plot")
 }
