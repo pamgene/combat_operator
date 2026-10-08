@@ -5,21 +5,57 @@
   "inputDataUri": "test_in.csv",
   "outputDataUri": [
     "test_out_1.csv",
-    "test_out_2.csv"
+    "test_out_2.csv",
+    "test_out_3.csv",
+    "test_out_4.csv"
   ],
-  "columns": ["Barcode", "Row"],
-  "rows": ["ID"],
-  "colors": ["Barcode"],
+  "columns": [
+    "Barcode",
+    "Row"
+  ],
+  "rows": [
+    "ID"
+  ],
+  "colors": [
+    "Barcode"
+  ],
   "labels": [],
   "yAxis": "value",
   "equalityMethod": "R2",
   "r2": 0.99,
+  "skipColumns": [
+    "filename"
+  ],
   "propertyValues": [
-    {"kind": "PropertyValue", "name": "ModelType", "value": "L/S"},
-    {"kind": "PropertyValue", "name": "UseReferenceBatch", "value": "false"},
-    {"kind": "PropertyValue", "name": "ReferenceBatch", "value": ""},
-    {"kind": "PropertyValue", "name": "UseFitCondition", "value": "false"},
-    {"kind": "PropertyValue", "name": "FitConditionFactors", "value": ""},
-    {"kind": "PropertyValue", "name": "FitConditionValues", "value": ""}
+    {
+      "kind": "PropertyValue",
+      "name": "ModelType",
+      "value": "L/S"
+    },
+    {
+      "kind": "PropertyValue",
+      "name": "UseReferenceBatch",
+      "value": "false"
+    },
+    {
+      "kind": "PropertyValue",
+      "name": "ReferenceBatch",
+      "value": ""
+    },
+    {
+      "kind": "PropertyValue",
+      "name": "UseFitCondition",
+      "value": "false"
+    },
+    {
+      "kind": "PropertyValue",
+      "name": "FitConditionFactors",
+      "value": ""
+    },
+    {
+      "kind": "PropertyValue",
+      "name": "FitConditionValues",
+      "value": ""
+    }
   ]
 }
