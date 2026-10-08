@@ -2,7 +2,7 @@
   "kind": "ComputedTableSchema",
   "isDeleted": false,
   "description": "",
-  "name": "53393f6d-84d1-4832-8b67-6aaa020e3d4f",
+  "name": "8c67e97d-7923-490c-a087-6de71b46d555",
   "acl": {
     "kind": "Acl",
     "owner": "admin",
@@ -10,11 +10,11 @@
   },
   "createdDate": {
     "kind": "Date",
-    "value": "2026-10-08T09:42:19.397064Z"
+    "value": "2026-10-08T13:30:00.816288Z"
   },
   "lastModifiedDate": {
     "kind": "Date",
-    "value": "2026-10-08T09:42:19.397064Z"
+    "value": "2026-10-08T13:30:00.816288Z"
   },
   "urls": [],
   "tags": [],
@@ -26,18 +26,13 @@
     },
     {
       "kind": "Pair",
-      "key": "filename.size_in_bytes",
-      "value": "128"
+      "key": ".content.max_cell_bytes",
+      "value": "54464"
     },
     {
       "kind": "Pair",
       "key": ".content.size_in_bytes",
-      "value": "46800"
-    },
-    {
-      "kind": "Pair",
-      "key": ".content.max_cell_bytes",
-      "value": "46688"
+      "value": "54576"
     },
     {
       "kind": "Pair",
@@ -48,6 +43,11 @@
       "kind": "Pair",
       "key": "mimetype.size_in_bytes",
       "value": "120"
+    },
+    {
+      "kind": "Pair",
+      "key": "filename.size_in_bytes",
+      "value": "128"
     }
   ],
   "url": {
@@ -103,7 +103,7 @@
       }
     }
   ],
-  "dataDirectory": "default/8f/ad/ad8f764ca52d4225a880404a117e754e",
+  "dataDirectory": "default/e0/9a/9ae071c67b0943ab85b83820317c632d",
   "relation": {
     "kind": "Relation"
   },
