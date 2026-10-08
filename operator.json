@@ -4,7 +4,7 @@
   "tags": ["batch correction", "normalization"],
   "authors": ["PamGene"],
   "urls": ["https://github.com/pamgene/combat_operator"],
-  "container": "ghcr.io/pamgene/combat_operator",
+  "container": "ghcr.io/pamgene/combat_operator:0.1.0",
   "operatorSpec": {
     "kind": "OperatorSpec",
     "ontologyUri": "https://tercen.com/_ontology/tercen",
