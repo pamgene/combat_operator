@@ -22,6 +22,7 @@ Terms (batch, fit condition, L / L/S, …) are defined in [`CONTEXT.md`](../../.
 Other changes in this phase:
 - `main.R` always fits on the fit samples (all samples, or the fit condition) and corrects all samples with `apply()` (in phase A, one-step returned the correction computed inside `fit()`, as the old operator did; after the D1 fix both are identical).
 - The PCA PNG shows the settings under the figures, e.g. `Parameters: Model type: L/S | Reference batch: run01 | Fit condition: Grouping - REF`; several fit conditions are joined with "or".
+- New downloadable output `combat_parameters.csv` (long format, columns `parameter`, `value`): Model type, Batch factors, Reference batch, Fit condition, written as in the plot caption.
 
 ## Comparison with the old Shiny operator
 
@@ -100,7 +101,7 @@ At most 3.7e-5 on data spanning 13–20 units (about 2 parts per million of the 
 
 ## Tercen unit test
 
-The expected output of the unit test (`tests/`) was regenerated, because both the L/S values and the PCA image changed: two runs in Tercen Studio from commit `a00b5aa` were byte-identical and equal to `main.R` on the mock context (max abs diff 5e-14); the real install gate passes (`default_params_LS successful`, commit `dfaca0a`).
+The expected output of the unit test (`tests/`) was regenerated, because the L/S values and the PCA image changed and the parameters CSV was added (now five output relations: CmbCor, column table, row table, PCA plot, parameters CSV). Two runs in Tercen Studio were byte-identical, the CmbCor values equal `main.R` on the mock context (max abs diff 5e-14), and the real install gate passes (`default_params_LS successful`, commit `8b4de61`).
 
 Reproduce (repo root, image built from this commit):
 
