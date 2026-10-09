@@ -65,12 +65,12 @@ mock_ctx = function(d, ds, props = list(), colours = ds$colours) {
 }
 select.mockctx = function(.data, ...) dplyr::select(.data$data, ...)
 
-# Intercept main.R's output chain: keep the CmbCor table and the PNG path.
+# Intercept main.R's output chain: keep the CmbCor table and the PNG and CSV paths.
 as_relation = function(x, ...) x
 left_join_relation = function(x, ...) x
 as_join_operator = function(x, ...) x
 file_to_tercen = function(file) file
-save_relation = function(x, ctx) assign("captured", list(cmbcor = x[[1]], png = x[[2]]), envir = globalenv())
+save_relation = function(x, ctx) assign("captured", list(cmbcor = x[[1]], png = x[[2]], params = x[[3]]), envir = globalenv())
 
 main_src = local({
   e = parse("main.R")
@@ -79,7 +79,7 @@ main_src = local({
 })
 
 # Run the unmodified main.R on a data set with the given properties.
-# Returns list(cmbcor = data.frame(.rids, .cids, CmbCor), png, ctx) or list(error = message).
+# Returns list(cmbcor = data.frame(.rids, .cids, CmbCor), png, params (CSV path), ctx) or list(error = message).
 run_main = function(ds, props = list(), colours = ds$colours, d = read_dataset(ds)) {
   ctx_obj = mock_ctx(d, ds, props, colours)
   assign("tercenCtx", function() ctx_obj, envir = globalenv())

@@ -40,9 +40,12 @@ model = pgCombat$new()$fit(X0[, fit_sample, drop = FALSE], factor(batch[fit_samp
 Xc = model$apply(X0, batch)
 dimnames(Xc) = dimnames(X0)
 
+params = parameter_table(mean_only, ctx$colors, ref, if (use_fit_condition) fit_factors, fit_values)
+param_file = file.path(tempdir(), "combat_parameters.csv")
+write.csv(params, param_file, row.names = FALSE)
+
 plot_file = tempfile(fileext = ".png")
-caption = parameter_text(mean_only, ref, if (use_fit_condition) fit_factors, fit_values)
-ggsave(plot_file, pca_plot(X0, Xc, batch, if (use_fit_condition) fit_sample, caption),
+ggsave(plot_file, pca_plot(X0, Xc, batch, if (use_fit_condition) fit_sample, parameter_text(params)),
        width = 10, height = 5.3, dpi = 150, bg = "white")
 
 result = data.frame(.rids = rep(0:(n_rows - 1), n_cols),
@@ -61,4 +64,8 @@ plot_rel = file_to_tercen(plot_file) %>%
   as_relation() %>%
   as_join_operator(list(), list())
 
-save_relation(list(main_rel, plot_rel), ctx)
+param_rel = file_to_tercen(param_file) %>%
+  as_relation() %>%
+  as_join_operator(list(), list())
+
+save_relation(list(main_rel, plot_rel, param_rel), ctx)

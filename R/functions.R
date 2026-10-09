@@ -131,15 +131,23 @@ check_fit_counts = function(fit_batches, all_batches, mean_only, fit_condition) 
   invisible(counts)
 }
 
-# One line with the settings, shown under the PCA plot. Several fit conditions
-# ("a | b") are written as "a or b", so "|" only separates the parameters.
-parameter_text = function(mean_only, ref, fit_factors, fit_values) {
+# The settings as shown to the user, in the PCA plot caption and the parameters CSV.
+# Several fit conditions ("a | b") are written as "a or b", so "|" only separates
+# the parameters in the caption.
+parameter_table = function(mean_only, batch_factors, ref, fit_factors, fit_values) {
   fit = if (is.null(fit_factors)) "not used" else
     paste(paste(split_values(fit_factors), collapse = ";"), "-",
           paste(vapply(split_values(fit_values, "|"), function(v) paste(split_values(v), collapse = ";"), ""),
                 collapse = " or "))
-  sprintf("Parameters: Model type: %s | Reference batch: %s | Fit condition: %s",
-          if (mean_only) "L" else "L/S", if (is.null(ref)) "not used" else ref, fit)
+  data.frame(parameter = c("Model type", "Batch factors", "Reference batch", "Fit condition"),
+             value = c(if (mean_only) "L" else "L/S", paste(batch_factors, collapse = ";"),
+                       if (is.null(ref)) "not used" else ref, fit))
+}
+
+# One line for the plot caption (without the batch factors, which the colour legend shows).
+parameter_text = function(params) {
+  shown = params[params$parameter != "Batch factors", ]
+  paste("Parameters:", paste(shown$parameter, shown$value, sep = ": ", collapse = " | "))
 }
 
 # PC1 vs PC2 before and after correction, coloured by batch, with the settings

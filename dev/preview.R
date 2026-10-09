@@ -6,7 +6,8 @@
 #   docker build -t combat_operator:dev .
 #   docker run --rm -v "$PWD:/src" --entrypoint Rscript combat_operator:dev /src/dev/preview.R
 #
-# Output: dev/preview/<case>.png, dev/preview/<case>.csv (CmbCor), dev/preview/errors.txt,
+# Output: dev/preview/<case>.png, dev/preview/<case>.csv (CmbCor), dev/preview/<case>_parameters.csv,
+# dev/preview/errors.txt,
 # dev/preview/index.html (overview).
 
 if (dir.exists("/src")) setwd("/src")
@@ -61,6 +62,7 @@ for (cs in cases) {
   }
   file.copy(res$png, file.path(out_dir, paste0(name, ".png")), overwrite = TRUE)
   write.csv(res$cmbcor, file.path(out_dir, paste0(name, ".csv")), row.names = FALSE)
+  file.copy(res$params, file.path(out_dir, paste0(name, "_parameters.csv")), overwrite = TRUE)
   cat(name, ": ok, NaN =", sum(is.nan(res$cmbcor$CmbCor)), "\n")
 }
 writeLines(errors, file.path(out_dir, "errors.txt"))
