@@ -2,7 +2,7 @@
   "kind": "ComputedTableSchema",
   "isDeleted": false,
   "description": "",
-  "name": "54d65077-4834-4bb2-b066-dde3193be9e8",
+  "name": "5229d761-3569-4f5e-a563-e5bd45a4557c",
   "acl": {
     "kind": "Acl",
     "owner": "admin",
@@ -10,11 +10,11 @@
   },
   "createdDate": {
     "kind": "Date",
-    "value": "2026-10-08T13:30:00.816355Z"
+    "value": "2026-10-09T11:21:27.342955Z"
   },
   "lastModifiedDate": {
     "kind": "Date",
-    "value": "2026-10-08T13:30:00.816355Z"
+    "value": "2026-10-09T11:21:27.342955Z"
   },
   "urls": [],
   "tags": [],
@@ -72,7 +72,7 @@
       }
     }
   ],
-  "dataDirectory": "default/cf/26/26cff4ce5a314d948f59fd29be13c046",
+  "dataDirectory": "default/e3/bd/bde30c7addf748b7af63a3e67ded66a0",
   "relation": {
     "kind": "Relation"
   },

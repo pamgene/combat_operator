@@ -32,14 +32,14 @@ Pinned smoke test, run by the release install check and the library gate (not th
 
 - Input `tests/test_in.csv` = `dev/data/example_data_QC.csv` reduced to `Barcode`, `Row`, `ID`, `value`. Projection: rows `ID`, columns `Barcode` + `Row`, colour `Barcode`, y `value`.
 - Every setting pinned at its default (`L/S`, no reference batch, no fit condition). `equalityMethod: R2` (0.99).
-- Four expected outputs, in this order (the CmbCor table is joined to the crosstab's column and row tables, so these count as outputs): `test_out_1` CmbCor (`.rids`, `.cids`, `ds0.CmbCor`), `test_out_2` column table, `test_out_3` row table, `test_out_4` PCA plot. `filename` of the plot is in `skipColumns` (R temp file name); the PNG bytes are compared (two runs gave identical bytes).
+- Five expected outputs, in this order (the CmbCor table is joined to the crosstab's column and row tables, so these count as outputs): `test_out_1` CmbCor (`.rids`, `.cids`, `ds0.CmbCor`), `test_out_2` column table, `test_out_3` row table, `test_out_4` PCA plot, `test_out_5` `combat_parameters.csv`. `filename` is in `skipColumns` (the PNG gets an R temp file name); the file bytes are compared (two runs gave identical bytes).
 - Each expected CSV has a `.csv.schema` sidecar (column types); doubles are written type-faithfully (`641031403.0`).
 
 ### Regenerating the expected output (intended behaviour change, e.g. phase B bug fixes)
 
 1. Push the change; CI builds `ghcr.io/pamgene/combat_operator:<short sha>` for any branch.
 2. In Tercen Studio (`tercen-studio` skill): install the operator from that commit without test (`install_operator`, `testRequired: false`), import `tests/test_in.csv`, build a data step with the projection and pinned settings above, run it **twice**.
-3. Export the four output relations of the step's computed relation (CSV + schema JSON with `id`/`rev` removed); both runs must be identical.
+3. Export the five output relations of the step's computed relation (CSV + schema JSON with `id`/`rev` removed); both runs must be identical.
 4. Replace `tests/test_out_*`, commit, then run the real gate: `tercenctl operator install -r https://github.com/pamgene/combat_operator -t <sha> --rm` must end with `default_params_LS successful`.
 
 Studio note (Oct 2026): on the Docker Desktop WSL2 kernel 6.6.87.2 the Studio worker cannot start operator containers (`netavark: nftables error`). Workaround: inside the worker container, `/etc/containers/containers.conf.d/90-host-network.conf` with `[containers]` / `netns="host"`, then `docker restart tercen_studio-tercen-worker-1` (not recreate — that removes the file).
